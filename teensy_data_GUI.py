@@ -5,6 +5,13 @@
     Date: Winter 2025
 """
 
+"""
+TODO:
+1. Possibly add CPU usage / other usage stats ported from teensy to monitor DAQ /
+overall health of car peripherals and processors
+"""
+
+
 import argparse
 import serial
 import PySimpleGUI as sg
