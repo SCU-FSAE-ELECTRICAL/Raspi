@@ -5,12 +5,16 @@
     Date: Winter 2025
 """
 
+# Usage:
+# Teensy hooked up to Raspi on port, get port name and set it below
+# pip3 install -r requirements.txt
+# python3 teensy_data_GUI.py (OPTIONAL FLAG -test)
+
 """
 TODO:
 1. Possibly add CPU usage / other usage stats ported from teensy to monitor DAQ /
 overall health of car peripherals and processors
 """
-
 
 import argparse
 import serial
