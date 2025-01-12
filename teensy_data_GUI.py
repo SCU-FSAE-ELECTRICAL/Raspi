@@ -24,25 +24,26 @@ import random
 import time
 
 SIM_ARTIFICIAL_DELAY = 0.3  # artificial delay for simulated data in seconds
-batteryLevel = 100
 
 # ---------------------------------------------------------------------------- #
 # Simulated function to generate test data
 def simulate_teensy_data(data_dict, error_flag):
-    global batteryLevel
     while True:
         if error_flag["status"]:  # Skip updating if there's an error
             time.sleep(SIM_ARTIFICIAL_DELAY)
             continue
 
         # Generate random test data
-        data_dict["battery"] = f"{batteryLevel}"
+        if data_dict["battery"] == "N/A":
+            data_dict["battery"] = "100"
+
+        x = int(data_dict["battery"])
+        data_dict["battery"] = f"{x - 1}"
         data_dict["speed"] = f"{random.randint(0, 120)}"
         data_dict["RPM"] = f"{random.randint(5000, 11000)}"
         data_dict["temp"] = f"{random.randint(20, 80)}°C"
         data_dict["error"] = "All Clear"
         time.sleep(SIM_ARTIFICIAL_DELAY)  # Simulate data update every second
-        batteryLevel -= 1
 
 
 # ---------------------------------------------------------------------------- #
@@ -66,16 +67,15 @@ def read_teensy_data(serial_port, data_dict, error_flag):
     except serial.SerialException as e:
         data_dict["error"] = f"Serial exception: {e}"
         error_flag["status"] = True
-    #finally:
-        #ser.close()
+    finally:
+        ser.close()
 
 # ---------------------------------------------------------------------------- #
 # Create a simple GUI to display the data
 def main(use_simulation):
     # Shared data dictionary and error flag
-    data = {"battery": "N/A", "RPM": "N?A", "speed": "N/A", "temp": "N/A", "error": "Initializing..."}
+    data = {"battery": "N/A", "RPM": "N/A", "speed": "N/A", "temp": "N/A", "error": "Initializing..."}
     error_flag = {"status": False}
-    global batteryLevel
 
     # Start a thread to fetch data
     def start_data_thread():
@@ -96,12 +96,12 @@ def main(use_simulation):
                       [sg.Text(key="RPM", size=(5,1), font=("Helvetica", 100))],
                       [sg.Text("RPM", font=("Helvetica", 30))]], pad=0)
     col3 = sg.Column([[sg.Text(key="error", font=("Helvetica", 50), expand_y = (True), text_color="lime")]], pad=0)
-    
+
     # Define the layout for the GUI
     layout = [
         [col1, sg.VerticalSeparator(), sg.Push(), col2, sg.Push(), sg.VerticalSeparator(), sg.Push(),col3],
         [sg.VPush()],
-        [sg.ProgressBar(100, orientation='h', expand_x = True, size_px=(800, 40), bar_color = ("yellow","gray"), key='-PBAR-')], 
+        [sg.ProgressBar(100, orientation='h', expand_x = True, size_px=(800, 40), bar_color = ("yellow","gray"), key='-PBAR-')],
     ]
 
     # Create the window
@@ -125,17 +125,18 @@ def main(use_simulation):
             window["status"].update("Rebooting...", text_color="orange")
             start_data_thread()  # Restart the data collection thread
 
-        if batteryLevel <= 0:
+        if int(data["battery"]) <= 0:
             error_flag["status"] = True
             data["error"] = "Battery \n Dead"
             window["error"].update(data["error"], text_color="red")
 
-        # Update GUI with the latest data
-        window["speed"].update(data["speed"])
-        window["RPM"].update(data["RPM"])
-        window["temp"].update(data["temp"])
-        window["error"].update(data["error"])
-        window['-PBAR-'].update(current_count = batteryLevel)
+        else:
+            # Update GUI with the latest data
+            window["speed"].update(data["speed"])
+            window["RPM"].update(data["RPM"])
+            window["temp"].update(data["temp"])
+            window["error"].update(data["error"])
+            window['-PBAR-'].update(current_count = data["battery"])
 
         # Update application status
 
