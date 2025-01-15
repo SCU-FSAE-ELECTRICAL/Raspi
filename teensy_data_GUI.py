@@ -41,7 +41,7 @@ def simulate_teensy_data(data_dict, error_flag):
         data_dict["speed"] = f"{random.randint(0, 120)}"
         data_dict["RPM"] = f"{random.randint(5000, 11000)}"
         data_dict["temp"] = f"{random.randint(20, 80)}°C"
-        data_dict["error"] = "All Clear"
+        data_dict["error"] = "All \n Clear"
         time.sleep(SIM_ARTIFICIAL_DELAY)  # Simulate data update every second
         batteryLevel -= 1
 
@@ -96,7 +96,7 @@ def main(use_simulation):
                       [sg.Text("MPH", font=("Helvetica", 30))],
                       [sg.Text(key="RPM", size=(5,1), font=("Helvetica", 100))],
                       [sg.Text("RPM", font=("Helvetica", 30))]], pad=0)
-    col3 = sg.Column([[sg.Text(key="error", font=("Helvetica", 50), expand_y = (True), text_color="lime")]], pad=0)
+    col3 = sg.Column([[sg.Text(key="error", font=("Helvetica", 50), expand_y = (False), text_color="lime")]], pad=0)
     
     # Define the layout for the GUI
     layout = [
