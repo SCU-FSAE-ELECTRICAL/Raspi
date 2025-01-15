@@ -92,17 +92,16 @@ def main(use_simulation):
     col1 = sg.Column([[sg.Text("TS1:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
                       [sg.Text("TS2:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
                       [sg.Text("TS3:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
-                      [sg.Text("TS4:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
-                      [sg.Text("PWR:",  font=("Helvetica", 30)), sg.Text("", key="power", size=(5, 1), font=("Helvetica", 30))]], pad=0)
+                      [sg.Text("TS4:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],], pad=0)
     col2 = sg.Column([[sg.Text(key="speed", size=(2,1), font=("Helvetica", 100))],
                       [sg.Text("MPH", font=("Helvetica", 30))],
-                      [sg.Text(key="RPM", size=(5,1), font=("Helvetica", 100))],
-                      [sg.Text("RPM", font=("Helvetica", 30))]], pad=0)
-    col3 = sg.Column([[sg.Text(key="error", font=("Helvetica", 50), expand_y = (False), text_color="lime")]], pad=0)
+                      [sg.Text(key="power", size=(5,1), font=("Helvetica", 100))],
+                      [sg.Text("kW", font=("Helvetica", 30))]], pad=0)
+    col3 = sg.Column([[sg.Text(key="error", font=("Helvetica", 50), expand_x = (False), expand_y = (True), text_color="lime")]], pad=0)
     
     # Define the layout for the GUI
     layout = [
-        [col1, sg.VerticalSeparator(), sg.Push(), col2, sg.Push(), sg.VerticalSeparator(), col3],
+        [col1, sg.VerticalSeparator(), col2, sg.Push(), sg.VerticalSeparator(), col3, sg.Push()],
         [sg.VPush()],
         [sg.ProgressBar(100, orientation='h', expand_x = True, size_px=(800, 40), bar_color = ("yellow","gray"), key='-PBAR-')], 
     ]
@@ -135,7 +134,6 @@ def main(use_simulation):
 
         # Update GUI with the latest data
         window["speed"].update(data["speed"])
-        window["RPM"].update(data["RPM"])
         window["power"].update(data["power"])
         window["temp"].update(data["temp"])
         window["error"].update(data["error"])
