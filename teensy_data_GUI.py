@@ -39,6 +39,7 @@ def simulate_teensy_data(data_dict, error_flag):
         # Generate random test data
         data_dict["battery"] = f"{batteryLevel}"
         data_dict["speed"] = f"{random.randint(0, 120)}"
+        data_dict["power"] = f"{random.randint(0, 120)}"
         data_dict["RPM"] = f"{random.randint(5000, 11000)}"
         data_dict["temp"] = f"{random.randint(20, 80)}°C"
         data_dict["error"] = "All \n Clear"
@@ -74,7 +75,7 @@ def read_teensy_data(serial_port, data_dict, error_flag):
 # Create a simple GUI to display the data
 def main(use_simulation):
     # Shared data dictionary and error flag
-    data = {"battery": "N/A", "RPM": "N?A", "speed": "N/A", "temp": "N/A", "error": "Initializing..."}
+    data = {"battery": "N/A", "RPM": "N?A", "power": "N?A", "speed": "N/A", "temp": "N/A", "error": "Initializing..."}
     error_flag = {"status": False}
     global batteryLevel
 
@@ -91,7 +92,8 @@ def main(use_simulation):
     col1 = sg.Column([[sg.Text("TS1:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
                       [sg.Text("TS2:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
                       [sg.Text("TS3:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
-                      [sg.Text("TS4:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))]], pad=0)
+                      [sg.Text("TS4:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
+                      [sg.Text("PWR:",  font=("Helvetica", 30)), sg.Text("", key="power", size=(5, 1), font=("Helvetica", 30))]], pad=0)
     col2 = sg.Column([[sg.Text(key="speed", size=(2,1), font=("Helvetica", 100))],
                       [sg.Text("MPH", font=("Helvetica", 30))],
                       [sg.Text(key="RPM", size=(5,1), font=("Helvetica", 100))],
@@ -100,7 +102,7 @@ def main(use_simulation):
     
     # Define the layout for the GUI
     layout = [
-        [col1, sg.VerticalSeparator(), sg.Push(), col2, sg.Push(), sg.VerticalSeparator(), sg.Push(),col3],
+        [col1, sg.VerticalSeparator(), sg.Push(), col2, sg.Push(), sg.VerticalSeparator(), col3],
         [sg.VPush()],
         [sg.ProgressBar(100, orientation='h', expand_x = True, size_px=(800, 40), bar_color = ("yellow","gray"), key='-PBAR-')], 
     ]
@@ -110,7 +112,7 @@ def main(use_simulation):
         "Electric Car Monitor",
         layout,
         element_justification="center",
-        size=(800, 385)  # size of raspi 7in display in pixels
+        size=(800, 480)  # size of raspi 7in display in pixels
     )
 
     # Main event loop
@@ -134,6 +136,7 @@ def main(use_simulation):
         # Update GUI with the latest data
         window["speed"].update(data["speed"])
         window["RPM"].update(data["RPM"])
+        window["power"].update(data["power"])
         window["temp"].update(data["temp"])
         window["error"].update(data["error"])
         window['-PBAR-'].update(current_count = batteryLevel)
