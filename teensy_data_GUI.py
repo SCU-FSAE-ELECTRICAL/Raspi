@@ -25,6 +25,7 @@ import time
 
 SIM_ARTIFICIAL_DELAY = 0.3  # artificial delay for simulated data in seconds
 batteryLevel = 100
+SERIAL_BAUDRATE = 9600 # set to this in the Teensy publisher
 
 # ---------------------------------------------------------------------------- #
 # Simulated function to generate test data
@@ -49,7 +50,7 @@ def simulate_teensy_data(data_dict, error_flag):
 # Function to read data from Teensy
 def read_teensy_data(serial_port, data_dict, error_flag):
     try:
-        ser = serial.Serial(serial_port, 9600, timeout=1)
+        ser = serial.Serial(serial_port, SERIAL_BAUDRATE, timeout=1)
         error_flag["status"] = False  # Clear error status if successful
         while True:
             if ser.in_waiting:
