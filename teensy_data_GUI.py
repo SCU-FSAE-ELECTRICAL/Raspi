@@ -110,7 +110,7 @@ def main(use_simulation):
         "Electric Car Monitor",
         layout,
         element_justification="center",
-        size=(800, 480)  # size of raspi 7in display in pixels
+        size=(800, 385)  # size of raspi 7in display in pixels
     )
 
     # Main event loop
