@@ -95,7 +95,7 @@ def main(use_simulation):
                       [sg.Text("TS4:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],], pad=0)
     col2 = sg.Column([[sg.Text(key="speed", size=(3,1), font=("Helvetica", 100))],
                       [sg.Text("MPH", font=("Helvetica", 30))],
-                      [sg.Text(key="power", size=(5,1), font=("Helvetica", 100))],
+                      [sg.Text(key="power", size=(3,1), font=("Helvetica", 100))],
                       [sg.Text("kW", font=("Helvetica", 30))]], pad=0)
     col3 = sg.Column([[sg.Text(key="error", font=("Helvetica", 50), expand_x = (False), expand_y = (True), text_color="lime")]], pad=0)
     
