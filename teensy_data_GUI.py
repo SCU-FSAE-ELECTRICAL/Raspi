@@ -93,7 +93,7 @@ def main(use_simulation):
                       [sg.Text("TS2:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
                       [sg.Text("TS3:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],
                       [sg.Text("TS4:",  font=("Helvetica", 30)), sg.Text("", key="temp", size=(5, 1), font=("Helvetica", 30))],], pad=0)
-    col2 = sg.Column([[sg.Text(key="speed", size=(2,1), font=("Helvetica", 100))],
+    col2 = sg.Column([[sg.Text(key="speed", size=(3,1), font=("Helvetica", 100))],
                       [sg.Text("MPH", font=("Helvetica", 30))],
                       [sg.Text(key="power", size=(5,1), font=("Helvetica", 100))],
                       [sg.Text("kW", font=("Helvetica", 30))]], pad=0)
@@ -101,7 +101,7 @@ def main(use_simulation):
     
     # Define the layout for the GUI
     layout = [
-        [col1, sg.VerticalSeparator(), col2, sg.Push(), sg.VerticalSeparator(), col3, sg.Push()],
+        [col1, sg.VerticalSeparator(), col2, sg.VerticalSeparator(), col3, sg.Push()],
         [sg.VPush()],
         [sg.ProgressBar(100, orientation='h', expand_x = True, size_px=(800, 40), bar_color = ("yellow","gray"), key='-PBAR-')], 
     ]
