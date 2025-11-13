@@ -396,9 +396,9 @@ inner_frame.place(
 # Bar for motor speed
 # ———————————————————
 bar_h = 50
-bar_w_max = 700
+bar_w_max = 645
 bar_canvas = tk.Canvas(inner_frame, bg="gray20", highlightthickness=0)
-bar_canvas.place(x=30, y=20, width=bar_w_max, height=bar_h)
+bar_canvas.place(x=70, y=20, width=bar_w_max, height=bar_h)
 
 # —————————————————
 # Gauges underneath
@@ -413,10 +413,10 @@ font_36 = ("Mono 91", 36)
 # Display of Gas and Break
 # ——————————————————
 gas_circle = tk.Canvas(inner_frame, width=50, height=50, bg="black", highlightthickness=0)
-gas_circle.place(x=30 + bar_w_max + 30, y=15)  # to the right of the RPM bar
+gas_circle.place(x= 80 + bar_w_max, y=15) 
 
 brake_circle = tk.Canvas(inner_frame, width=50, height=50, bg="black", highlightthickness=0)
-brake_circle.place(x=30 + bar_w_max + 100, y=15)
+brake_circle.place(x= 3, y=15)
 def set_dot(canvas, color):
     canvas.delete("all")
     canvas.create_oval(5,5,45,45, fill=color, width = 0)
@@ -448,7 +448,7 @@ acc_temp_lbl = tk.Label(inner_frame, text="", font=font_14, fg="white", bg="blac
 acc_temp_lbl.place(x=30, y=265)
 
 noncrit_lbl = tk.Label(inner_frame, text="", font=("Mono 91", 16), fg="yellow", bg="black")
-noncrit_lbl.place(relx=0.98, y=20, anchor="ne")
+noncrit_lbl.place(x=30, y=300)
 
 # Right column
 min_voltage_lbl = tk.Label(inner_frame, text="", font=font_20, fg="white", bg="black")
@@ -466,8 +466,6 @@ acc_lbl.pack(side="left")
 
 sd_lbl = tk.Label(inner_frame, text="SD: -", font=font_14, fg="white", bg="black")
 sd_lbl.place(x= 500, y= 235)
-
-
 
 # —————————————————————
 # State at bottom left
@@ -492,7 +490,9 @@ fault_lbl = tk.Label(
     bg="black"
 )
 # Place the fault label at the center 
-fault_lbl.place(relx=0.5, rely=0.4, anchor="center")
+FAULT_Y = SCREEN_H // 2 
+FAULT_X = SCREEN_W // 2  
+fault_lbl.place(x=FAULT_X - 10, y=FAULT_Y - 20, anchor="center")
 
 # ——————————————————————————————————
 # Bronco Racing Logo (bottom right)
